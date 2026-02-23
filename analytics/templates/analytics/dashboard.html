@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warhammer Army Analytics</title>
+    <style>
+        :root { font-family: Inter, Arial, sans-serif; }
+        body { margin: 0; background: #0f172a; color: #e2e8f0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+        h1, h2 { margin-top: 0; }
+        .grid { display: grid; gap: 16px; }
+        .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+        .card { background: #1e293b; border-radius: 12px; padding: 16px; box-shadow: 0 5px 16px rgba(0,0,0,0.2); }
+        .kpi { font-size: 2rem; font-weight: 700; margin-top: 6px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 8px; border-bottom: 1px solid #334155; }
+        th { color: #93c5fd; }
+        .two-col { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Dashboard de composiciones de ejército (Best Coast Pairings)</h1>
+
+    <section class="grid kpi-grid">
+        <div class="card">
+            <div>Torneos importados</div>
+            <div class="kpi">{{ total_tournaments }}</div>
+        </div>
+        <div class="card">
+            <div>Listas analizadas</div>
+            <div class="kpi">{{ total_lists }}</div>
+        </div>
+        <div class="card">
+            <div>Facciones únicas</div>
+            <div class="kpi">{{ unique_factions }}</div>
+        </div>
+    </section>
+
+    <section class="grid two-col" style="margin-top: 20px;">
+        <div class="card">
+            <h2>Facciones más jugadas</h2>
+            <table>
+                <thead><tr><th>Facción</th><th>Listas</th></tr></thead>
+                <tbody>
+                {% for row in top_factions %}
+                    <tr><td>{{ row.faction }}</td><td>{{ row.list_count }}</td></tr>
+                {% empty %}
+                    <tr><td colspan="2">Sin datos</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Unidades más frecuentes</h2>
+            <table>
+                <thead><tr><th>Unidad</th><th>Selecciones</th><th>Prom. pts</th></tr></thead>
+                <tbody>
+                {% for row in top_units %}
+                    <tr><td>{{ row.unit_name }}</td><td>{{ row.times_selected }}</td><td>{{ row.avg_points|floatformat:0 }}</td></tr>
+                {% empty %}
+                    <tr><td colspan="3">Sin datos</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="grid two-col" style="margin-top: 20px;">
+        <div class="card">
+            <h2>Rendimiento por facción (Top 10)</h2>
+            <table>
+                <thead><tr><th>Facción</th><th>Puesto medio</th><th>Top 10</th></tr></thead>
+                <tbody>
+                {% for row in faction_performance %}
+                    <tr><td>{{ row.faction }}</td><td>{{ row.avg_placing|floatformat:2 }}</td><td>{{ row.top10_finishes }}</td></tr>
+                {% empty %}
+                    <tr><td colspan="3">Sin datos</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Torneos recientes</h2>
+            <table>
+                <thead><tr><th>Evento</th><th>Fecha</th><th>Listas</th></tr></thead>
+                <tbody>
+                {% for t in recent_tournaments %}
+                    <tr><td>{{ t.name }}</td><td>{{ t.event_date }}</td><td>{{ t.total_players }}</td></tr>
+                {% empty %}
+                    <tr><td colspan="3">Sin datos</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+</body>
+</html>
