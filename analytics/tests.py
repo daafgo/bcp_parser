@@ -76,6 +76,42 @@ class BCPWebParserTests(TestCase):
         self.assertIsInstance(payload, dict)
         self.assertEqual(payload["props"]["pageProps"]["event"]["id"], "abc")
 
+    @patch.object(BCPWebParser, "_get_html")
+    def test_parse_event_walks_roster_and_downloads_lists(self, get_html):
+        roster_html = """
+        <html><head><title>Sample GT | Best Coast Pairings</title></head><body>
+          <a href="/list/AAA111">Roster 1</a>
+          <a href="/list/BBB222">Roster 2</a>
+        </body></html>
+        """
+        list_1 = """
+        <html><body>
+          <div>Player: Alice</div>
+          <div>Faction: Aeldari</div>
+          <pre>2 Warp Spiders - 95 pts\n1 Farseer - 80 pts</pre>
+        </body></html>
+        """
+        list_2 = """
+        <html><body>
+          <div>Player: Bob</div>
+          <div>Faction: Space Marines</div>
+          <pre>1 Redemptor Dreadnought - 210 pts</pre>
+        </body></html>
+        """
+
+        get_html.side_effect = [roster_html, list_1, list_2]
+
+        parser = BCPWebParser()
+        parsed = parser.parse_event("MvspHPzDhDpr")
+
+        self.assertEqual(parsed.bcp_tournament_id, "MvspHPzDhDpr")
+        self.assertEqual(parsed.name, "Sample GT")
+        self.assertEqual(len(parsed.army_lists), 2)
+        self.assertEqual(parsed.army_lists[0].player_name, "Alice")
+        self.assertEqual(parsed.army_lists[1].faction, "Space Marines")
+
+        self.assertEqual(get_html.call_count, 3)
+
 
 class DashboardViewTests(TestCase):
     def test_dashboard_loads(self):
