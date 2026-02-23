@@ -1,0 +1,41 @@
+{
+  "tournament_id": "gt-iberia-2025",
+  "name": "GT Iberia Open",
+  "event_date": "2025-06-15",
+  "game_system": "Warhammer 40k",
+  "lists": [
+    {
+      "player_name": "Ana",
+      "faction": "Aeldari",
+      "subfaction": "Battle Host",
+      "placing": 1,
+      "battle_points": 98,
+      "units": [
+        {"unit_name": "Farseer", "quantity": 1, "points": 80, "battlefield_role": "Character"},
+        {"unit_name": "Warp Spiders", "quantity": 2, "points": 95, "battlefield_role": "Infantry"}
+      ]
+    },
+    {
+      "player_name": "Luis",
+      "faction": "Space Marines",
+      "subfaction": "Gladius Task Force",
+      "placing": 4,
+      "battle_points": 86,
+      "units": [
+        {"unit_name": "Intercessor Squad", "quantity": 2, "points": 80, "battlefield_role": "Battleline"},
+        {"unit_name": "Redemptor Dreadnought", "quantity": 1, "points": 210, "battlefield_role": "Vehicle"}
+      ]
+    },
+    {
+      "player_name": "Marta",
+      "faction": "Astra Militarum",
+      "subfaction": "Combined Regiment",
+      "placing": 8,
+      "battle_points": 77,
+      "units": [
+        {"unit_name": "Leman Russ", "quantity": 2, "points": 170, "battlefield_role": "Vehicle"},
+        {"unit_name": "Cadian Shock Troops", "quantity": 3, "points": 60, "battlefield_role": "Battleline"}
+      ]
+    }
+  ]
+}
